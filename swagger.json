@@ -25,6 +25,25 @@
       },
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "scan_id": { "type": "number" },
+                "soldier_id": { "type": "number" },
+                "object_type": { "type": "string" },
+                "distance_m": { "type": "number" },
+                "bearing": { "type": "number" },
+                "confidence": { "type": "number" },
+                "hazard_level": { "type": "string" }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -69,6 +88,23 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "scan_id": { "type": "number" },
+                "soldier_id": { "type": "number" },
+                "object_type": { "type": "string" },
+                "distance_m": { "type": "number" },
+                "bearing": { "type": "number" },
+                "confidence": { "type": "number" },
+                "hazard_level": { "type": "string" }
+              }
+            }
           }
         ],
         "responses": {
@@ -123,6 +159,23 @@
       },
       "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "soldier_id": { "type": "number" },
+                "callsign": { "type": "string" },
+                "suit_status": { "type": "string" },
+                "current_location": { "type": "string" },
+                "active_scan_range_m": { "type": "number" }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -167,6 +220,21 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "soldier_id": { "type": "number" },
+                "callsign": { "type": "string" },
+                "suit_status": { "type": "string" },
+                "current_location": { "type": "string" },
+                "active_scan_range_m": { "type": "number" }
+              }
+            }
           }
         ],
         "responses": {
