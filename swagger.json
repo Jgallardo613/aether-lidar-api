@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Aether Apex LIDAR API",
-    "description": "CRUD API for soldier LIDAR scan detection and operator status tracking.",
+    "description": "CRUD API for soldier LIDAR scan detection and operator status tracking. POST, PUT, and DELETE routes require GitHub OAuth authentication.",
     "version": "1.0.0"
   },
   "host": "aether-lidar-api.onrender.com",
@@ -10,10 +10,50 @@
   "schemes": [
     "https"
   ],
+  "securityDefinitions": {
+    "GitHubOAuth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://aether-lidar-api.onrender.com/auth/github",
+      "flow": "implicit",
+      "scopes": {
+        "read:user": "Read user profile"
+      }
+    }
+  },
   "paths": {
+    "/auth/github": {
+      "get": {
+        "description": "Redirects to GitHub for OAuth login",
+        "responses": {
+          "302": {
+            "description": "Redirect to GitHub"
+          }
+        }
+      }
+    },
+    "/auth/github/callback": {
+      "get": {
+        "description": "GitHub OAuth callback URL — handles login redirect",
+        "responses": {
+          "302": {
+            "description": "Redirect after login"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "description": "Logs the current user out",
+        "responses": {
+          "302": {
+            "description": "Redirect after logout"
+          }
+        }
+      }
+    },
     "/scans/": {
       "get": {
-        "description": "",
+        "description": "Get all scans — public route, no login required",
         "responses": {
           "200": {
             "description": "OK"
@@ -24,7 +64,8 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Create a new scan — requires GitHub OAuth login",
+        "security": [{ "GitHubOAuth": ["read:user"] }],
         "parameters": [
           {
             "name": "body",
@@ -51,6 +92,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized — login required"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -59,7 +103,7 @@
     },
     "/scans/{id}": {
       "get": {
-        "description": "",
+        "description": "Get a scan by ID — public route, no login required",
         "parameters": [
           {
             "name": "id",
@@ -81,7 +125,8 @@
         }
       },
       "put": {
-        "description": "",
+        "description": "Update a scan by ID — requires GitHub OAuth login",
+        "security": [{ "GitHubOAuth": ["read:user"] }],
         "parameters": [
           {
             "name": "id",
@@ -114,6 +159,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized — login required"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -123,7 +171,8 @@
         }
       },
       "delete": {
-        "description": "",
+        "description": "Delete a scan by ID — requires GitHub OAuth login",
+        "security": [{ "GitHubOAuth": ["read:user"] }],
         "parameters": [
           {
             "name": "id",
@@ -135,6 +184,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized — login required"
           },
           "404": {
             "description": "Not Found"
@@ -147,7 +199,7 @@
     },
     "/operators/": {
       "get": {
-        "description": "",
+        "description": "Get all operators — public route, no login required",
         "responses": {
           "200": {
             "description": "OK"
@@ -158,7 +210,8 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Create a new operator — requires GitHub OAuth login",
+        "security": [{ "GitHubOAuth": ["read:user"] }],
         "parameters": [
           {
             "name": "body",
@@ -183,6 +236,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized — login required"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -191,7 +247,7 @@
     },
     "/operators/{id}": {
       "get": {
-        "description": "",
+        "description": "Get an operator by ID — public route, no login required",
         "parameters": [
           {
             "name": "id",
@@ -213,7 +269,8 @@
         }
       },
       "put": {
-        "description": "",
+        "description": "Update an operator by ID — requires GitHub OAuth login",
+        "security": [{ "GitHubOAuth": ["read:user"] }],
         "parameters": [
           {
             "name": "id",
@@ -244,6 +301,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized — login required"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -253,7 +313,8 @@
         }
       },
       "delete": {
-        "description": "",
+        "description": "Delete an operator by ID — requires GitHub OAuth login",
+        "security": [{ "GitHubOAuth": ["read:user"] }],
         "parameters": [
           {
             "name": "id",
@@ -265,6 +326,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized — login required"
           },
           "404": {
             "description": "Not Found"
